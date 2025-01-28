@@ -52,6 +52,9 @@ public class LoginTest extends ParentTestClass {
         driver.findElement(By.id("password")).sendKeys(password);
         driver.findElement(By.id("login-button")).click();
 
+        assertEquals("https://www.saucedemo.com/inventory.html", driver.getCurrentUrl());
+        assertTrue(driver.findElement(By.cssSelector(".shopping_cart_link")).isDisplayed());//patikrinti ar pavyko
+
     }
 
     @Test
