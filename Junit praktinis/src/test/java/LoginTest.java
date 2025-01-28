@@ -7,7 +7,7 @@ import static java.time.Duration.ofSeconds;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-public class LoginTest extends ParentTestClass {
+public class LoginTest extends Base {
 
 
     @Test
