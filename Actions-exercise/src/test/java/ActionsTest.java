@@ -40,36 +40,40 @@ public class ActionsTest extends Base {
     }
 
     @Test
-    void hoverTest() {
+    void hoverTest() throws InterruptedException {
 
         WebElement hoverFirst = driver.findElement(By.cssSelector("div:nth-of-type(1) > .dropbtn"));
         WebElement hoverSecond = driver.findElement(By.cssSelector("div:nth-of-type(2) > .dropbtn"));
         WebElement hoverThird = driver.findElement(By.cssSelector("div:nth-of-type(3) > .dropbtn"));
 
-        actions.moveToElement(hoverFirst).perform();
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofMillis(5000));
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.linkText("Link 1")));
-        driver.findElement(By.linkText("Link 1")).click();
-        Alert alert = driver.switchTo().alert();
-        String alertText = alert.getText();
-        assertEquals("Well done you clicked on the link!", alertText);
-        alert.accept();
+        hoverAndClick(hoverFirst);
+        hoverAndClick(hoverSecond);
+        hoverAndClick(hoverThird);
 
-        actions.moveToElement(hoverSecond).perform();
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.linkText("Link 1")));
-        driver.findElement(By.linkText("Link 1")).click();
-        driver.switchTo().alert();
-        String secondAlertText = alert.getText();
-        assertEquals("Well done you clicked on the link!", secondAlertText);
-        alert.accept();
-
-        actions.moveToElement(hoverThird).perform();
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.linkText("Link 1")));
-        driver.findElement(By.linkText("Link 1")).click();
-        driver.switchTo().alert();
-        String ThirdAlertText = alert.getText();
-        assertEquals("Well done you clicked on the link!", ThirdAlertText);
-        alert.accept();
+//        actions.moveToElement(hoverFirst).perform();
+//        WebDriverWait wait = new WebDriverWait(driver, Duration.ofMillis(5000));
+//        wait.until(ExpectedConditions.presenceOfElementLocated(By.linkText("Link 1")));
+//        driver.findElement(By.linkText("Link 1")).click();
+//        Alert hoverAndClick = driver.switchTo().hoverAndClick();
+//        String alertText = hoverAndClick.getText();
+//        assertEquals("Well done you clicked on the link!", alertText);
+//        hoverAndClick.accept();
+//
+//        actions.moveToElement(hoverSecond).perform();
+//        wait.until(ExpectedConditions.presenceOfElementLocated(By.linkText("Link 1")));
+//        driver.findElement(By.linkText("Link 1")).click();
+//        driver.switchTo().hoverAndClick();
+//        String secondAlertText = hoverAndClick.getText();
+//        assertEquals("Well done you clicked on the link!", secondAlertText);
+//        hoverAndClick.accept();
+//
+//        actions.moveToElement(hoverThird).perform();
+//        wait.until(ExpectedConditions.presenceOfElementLocated(By.linkText("Link 1")));
+//        driver.findElement(By.linkText("Link 1")).click();
+//        driver.switchTo().hoverAndClick();
+//        String ThirdAlertText = hoverAndClick.getText();
+//        assertEquals("Well done you clicked on the link!", ThirdAlertText);
+//        hoverAndClick.accept();
 
 
     }
@@ -87,6 +91,19 @@ public class ActionsTest extends Base {
 
         assertNotEquals(colorBefore, colorAfter);
         assertNotEquals(textBefore, textAfter);
+
+    }
+
+    void hoverAndClick(WebElement element) {
+
+        actions.moveToElement(element).perform();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofMillis(5000));
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.linkText("Link 1")));
+        driver.findElement(By.linkText("Link 1")).click();
+        Alert alert = driver.switchTo().alert();
+        String alertText = alert.getText();
+        assertEquals("Well done you clicked on the link!", alertText);
+        alert.accept();
 
     }
 }
