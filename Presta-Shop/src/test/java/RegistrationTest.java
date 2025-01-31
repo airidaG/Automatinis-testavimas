@@ -12,21 +12,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class RegistrationTest extends Base {
 
-    @Test
-    void cleanup() {
-
-        driver.get("http://192.168.89.95/administration/");
-        driver.findElement(By.id("email")).sendKeys("user@example.com");
-        driver.findElement(By.id("passwd")).sendKeys("I4ygfj6.at4,");
-        driver.findElement(By.id("submit_login")).click();
-        driver.findElement(By.id("subtab-AdminParentCustomer")).click();
-        driver.findElement(By.id("collapse-24")).click();
-        driver.findElement(By.xpath("/html//li[@id='subtab-AdminCustomers']")).click();
-        driver.findElement(By.cssSelector(".column-filters > td:nth-of-type(1) > .md-checkbox")).click();
-        driver.findElement(By.cssSelector(".btn.btn-outline-secondary.dropdown-toggle.js-bulk-actions-btn")).click();
-        driver.findElement(By.cssSelector("button#customer_grid_bulk_action_delete_selection")).click();
-        driver.findElement(By.cssSelector(".js-submit-delete-customers")).click();
-    }
 
     @Test
     void signupTest() {
@@ -129,6 +114,8 @@ public class RegistrationTest extends Base {
     @CsvFileSource(files = "src/test/resources/invalid_registration_data.csv", numLinesToSkip = 1)
     void invalidRegistrationTest(String firstName, String lastName, String email, String password) {
 
+        cleanup();
+
         driver.findElement(By.linkText("Sign in")).click();
         driver.findElement(By.linkText("No account? Create one here")).click();
         driver.findElement(By.id("field-firstname")).sendKeys(firstName);
@@ -207,5 +194,20 @@ public class RegistrationTest extends Base {
             randomName.append(letters.charAt(index));
         }
         return randomName.toString();
+    }
+
+    private void cleanup() {
+
+        driver.get("http://192.168.89.95/administration/");
+        driver.findElement(By.id("email")).sendKeys("user@example.com");
+        driver.findElement(By.id("passwd")).sendKeys("I4ygfj6.at4,");
+        driver.findElement(By.id("submit_login")).click();
+        driver.findElement(By.id("subtab-AdminParentCustomer")).click();
+        driver.findElement(By.id("collapse-24")).click();
+        driver.findElement(By.xpath("/html//li[@id='subtab-AdminCustomers']")).click();
+        driver.findElement(By.cssSelector(".column-filters > td:nth-of-type(1) > .md-checkbox")).click();
+        driver.findElement(By.cssSelector(".btn.btn-outline-secondary.dropdown-toggle.js-bulk-actions-btn")).click();
+        driver.findElement(By.cssSelector("button#customer_grid_bulk_action_delete_selection")).click();
+        driver.findElement(By.cssSelector(".js-submit-delete-customers")).click();
     }
 }
