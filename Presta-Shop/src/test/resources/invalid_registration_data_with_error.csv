@@ -1,0 +1,11 @@
+First name,Last name, Email, Password, Error
+"123","Smith","user@gmail.com","SecurePass123!","Invalid format."
+"123","123","user@gmail.com","SecurePass123!","Invalid format."
+"Mark","123","user@gmail.com","SecurePass123!","Invalid format."
+"John","Doe","user@com","SecurePass123!","Invalid format."
+"Mike","Brown","test@domain","SecurePass123!","Invalid format."
+"John","Doe",".user@gmail.com","SecurePass123!","Invalid format."
+"John","Doe","user@gmail.c","SecurePass123!","Invalid format."
+"John","Doe","user..@gmail.com","SecurePass123!","Invalid format."
+"John","Doe","+*-@gmail.com","SecurePass123!","Invalid format."
+"John","Doe","user@gmail.c.om","SecurePass123!","Invalid format."
