@@ -20,20 +20,14 @@ public class BaseTest {
     @BeforeEach
     void setup() {
 
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless"); // Enable headless mode
-        options.addArguments("--disable-gpu"); // Disable GPU (for compatibility)
-        options.addArguments("--window-size=1920x1080"); // Set window size
+        ChromeOptions options = getHeadlessOptions();
 
         // Initialize WebDriver with ChromeOptions
         driver = new ChromeDriver(options);
         calorieAppPage = new CalorieAppPage(driver);
         driver.get(BASE_URL);
-        driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(POPUP_BUTTON))).click();
-
+        handlePopup();
     }
 
     @AfterEach
@@ -41,5 +35,18 @@ public class BaseTest {
         if (driver != null) {
             driver.quit();
         }
+    }
+    private void handlePopup(){
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(POPUP_BUTTON))).click();
+
+    }
+
+    private ChromeOptions getHeadlessOptions() {
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless"); // Enable headless mode
+        options.addArguments("--disable-gpu"); // Disable GPU (for compatibility)
+        options.addArguments("--window-size=1920x1080"); // Set window size
+        return options;
     }
 }

@@ -1,37 +1,32 @@
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-
-import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CalorieAppTests extends BaseTest{
 
-    private String item1 = "Apple";
-    private String item2 = "Banana";
-    private String calories1 = "50";
-    private String calories2 = "100";
-    private String itemEdit = "Carrot";
-    private String caloriesEdit = "666";
-    private int howMany = 4;
+    private final String ITEM1 = "Apple";
+    private final String ITEM2 = "Banana";
+    private final String CALORIES1 = "50";
+    private final String CALORIES2 = "100";
+    private final String ITEM_EDIT = "Carrot";
+    private final String CALORIES_EDIT = "666";
+    private final int HOW_MANY = 4;
 
 
     @Test
     void addMealTest(){
 
-        calorieAppPage.addItem(item1);
-        calorieAppPage.addCalories(calories1);
+        calorieAppPage.addItem(ITEM1);
+        calorieAppPage.addCalories(CALORIES1);
         calorieAppPage.clickAddMeal();
-        assertTrue(calorieAppPage.isItemInList(item1, calories1), "The item was not added");
+        assertTrue(calorieAppPage.isItemInList(ITEM1, CALORIES1), "The item was not added");
     }
 
     @Test
     void addedMealsListSizeTest(){
 
-        for(int i = 1; i <= howMany; i++) {
+        for(int i = 1; i <= HOW_MANY; i++) {
             calorieAppPage.addMeal(Utility.getRandomFood(), Utility.getRandomNum());
             assertEquals(i, calorieAppPage.getAllItemsList().size());
         }
@@ -42,7 +37,7 @@ public class CalorieAppTests extends BaseTest{
     void verifyCalorieCounterTest(){
 
         int total = 0;
-        for(int i = 1; i <= howMany; i++) {
+        for(int i = 1; i <= HOW_MANY; i++) {
             String item = Utility.getRandomFood();
             String cal = Utility.getRandomNum();
             total += Integer.parseInt(cal);
@@ -55,8 +50,8 @@ public class CalorieAppTests extends BaseTest{
 
     @Test
     void clearAllButtonWorks(){
-        addMealAndVerify(item1, calories1);
-        addMealAndVerify(item2, calories2);
+        addMealAndVerify(ITEM1, CALORIES1);
+        addMealAndVerify(ITEM2, CALORIES2);
         calorieAppPage.clickClearAll();
         assertTrue(calorieAppPage.getAllItemsList().isEmpty(), "Items were not removed");
     }
@@ -92,17 +87,17 @@ public class CalorieAppTests extends BaseTest{
 
     @Test
     void ableToEditItems(){
-        addMealAndVerify(item1, calories1);
+        addMealAndVerify(ITEM1, CALORIES1);
         calorieAppPage.clickButtonEdit(0);
-        calorieAppPage.editItem(itemEdit, caloriesEdit);
+        calorieAppPage.editItem(ITEM_EDIT, CALORIES_EDIT);
         calorieAppPage.clickButtonUpdate();
-        assertTrue(calorieAppPage.isItemInList(itemEdit, caloriesEdit));
+        assertTrue(calorieAppPage.isItemInList(ITEM_EDIT, CALORIES_EDIT));
 
     }
 
     @Test
     void ableToDeleteItems(){
-        addMealAndVerify(item1, calories1);
+        addMealAndVerify(ITEM1, CALORIES1);
         calorieAppPage.clickButtonEdit(0);
         calorieAppPage.clickButtonDelete();
         assertTrue(calorieAppPage.getAllItemsList().isEmpty(), "Items were not removed");
@@ -110,7 +105,7 @@ public class CalorieAppTests extends BaseTest{
 
     @Test
     void ableToClickBack(){
-        addMealAndVerify(item1, calories1);
+        addMealAndVerify(ITEM1, CALORIES1);
         calorieAppPage.clickButtonEdit(0);
         calorieAppPage.clickButtonBack();
 
@@ -119,31 +114,31 @@ public class CalorieAppTests extends BaseTest{
 //        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("//li[@class='collection-item']"),
 //                item1 +": " + calories1 + " Calories"));
 
-        assertTrue(calorieAppPage.isItemInList(item1, calories1),
-                "The item should remain displayed as follows: " + item1 +": " + calories1 + " Calories");
+        assertTrue(calorieAppPage.isItemInList(ITEM1, CALORIES1),
+                "The item should remain displayed as follows: " + ITEM1 +": " + CALORIES1 + " Calories");
 
 
     }
 
     @Test
     void reloadingDoesNotAlterMealList(){
-        addMealAndVerify(item1, calories1);
-        addMealAndVerify(item2, calories2);
+        addMealAndVerify(ITEM1, CALORIES1);
+        addMealAndVerify(ITEM2, CALORIES2);
         calorieAppPage.reloadPage();
-        assertTrue(calorieAppPage.isItemInList(item1, calories1),
-                "The item should remain displayed as follows: " + item1 +": " + calories1 + " Calories");
-        assertTrue(calorieAppPage.isItemInList(item2, calories2),
-                "The item should remain displayed as follows: " + item1 +": " + calories1 + " Calories");
+        assertTrue(calorieAppPage.isItemInList(ITEM1, CALORIES1),
+                "The item should remain displayed as follows: " + ITEM1 +": " + CALORIES1 + " Calories");
+        assertTrue(calorieAppPage.isItemInList(ITEM2, CALORIES2),
+                "The item should remain displayed as follows: " + ITEM1 +": " + CALORIES1 + " Calories");
 
     }
 
     @Test
     void reloadingDoesNotAlterCalorieCountDisplay(){
 
-        int totalCal = Integer.parseInt(calories1) + Integer.parseInt(calories2);
+        int totalCal = Integer.parseInt(CALORIES1) + Integer.parseInt(CALORIES2);
 
-        addMealAndVerify(item1, calories1);
-        addMealAndVerify(item2, calories2);
+        addMealAndVerify(ITEM1, CALORIES1);
+        addMealAndVerify(ITEM2, CALORIES2);
         assertEquals(totalCal, calorieAppPage.getTotalCalories(), "Calorie count does not match");
         calorieAppPage.reloadPage();
         assertEquals(totalCal, calorieAppPage.getTotalCalories(), "Calorie count does not match");
@@ -170,10 +165,10 @@ public class CalorieAppTests extends BaseTest{
 
     @Test
     void verifyCalorieInputAcceptsOnlyNumbers(){
-        calorieAppPage.addMeal(item1, "twenty");
+        calorieAppPage.addMeal(ITEM1, "twenty");
         assertTrue(calorieAppPage.getAllItemsList().isEmpty(),
                 "Calorie input field should accept only numbers");
-        calorieAppPage.addMeal(item2, "-+*");
+        calorieAppPage.addMeal(ITEM2, "-+*");
         assertTrue(calorieAppPage.getAllItemsList().isEmpty(),
                 "Calorie input field should accept only numbers");
     }
@@ -181,7 +176,7 @@ public class CalorieAppTests extends BaseTest{
 
     @Test
     void negativeCalorieInputTest(){
-        calorieAppPage.addMeal(item1, "-150");
+        calorieAppPage.addMeal(ITEM1, "-150");
         assertTrue(calorieAppPage.getAllItemsList().isEmpty(),
                 "Calorie input field should accept only positive numbers");
     }
