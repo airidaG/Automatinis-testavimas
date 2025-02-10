@@ -2,6 +2,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 public class Utility extends BaseTest{
 
     static List<String> foodItems = Arrays.asList(
@@ -20,4 +22,6 @@ public class Utility extends BaseTest{
        int randomNum = (int) (Math.random() * (200 - 10 + 1)) + 10;//nuo 10 iki 200
         return Integer.toString(randomNum);
     }
+
+
 }

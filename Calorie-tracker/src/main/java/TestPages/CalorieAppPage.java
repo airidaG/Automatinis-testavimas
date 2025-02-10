@@ -114,6 +114,17 @@ public class CalorieAppPage extends BasePage {
         return buttonBack;
     }
 
+    public WebElement getButtonAddMeal() {
+        return buttonAddMeal;
+    }
+
+    public WebElement getButtonHome() {
+        return buttonHome;
+    }
+
+    public WebElement getButtonClearAll() {
+        return buttonClearAll;
+    }
 
     public boolean isItemInList(String itemName, String calories) {
 
@@ -122,17 +133,9 @@ public class CalorieAppPage extends BasePage {
                 .toList();
 
         return items.contains(itemName +": " + calories + " Calories");
+//for two different outcomes
+//        return items.contains(itemName +": " + calories + " Calories") || items.contains(itemName + " " + calories + " Calories");
     }
-
-//    public boolean wasItemUpdated(String itemName, String calories) {
-//
-//        List<String> items = getAllItemsList().stream()
-//                .map(WebElement::getText)
-//                .toList();
-//
-//        System.out.println(items);
-//        return items.contains(itemName +": " + calories + " Calories");
-//    }
 
     public void reloadPage(){
         driver.navigate().refresh();
