@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class GreenCartTests extends BaseTest {
 
     private final String TO_SEARCH = "at";
+    private final String TO_SEARCH_MORE_RESULTS = "A";
     private final String INVALID_SEARCH = "z";
     private final String NO_DATA_MESSAGE = "No data";
     private final String PAGE_SIZE_5 = "5";
@@ -31,8 +32,15 @@ public class GreenCartTests extends BaseTest {
     void searchFunctionalityTest() {
         greenCartPage.selectPageSize(PAGE_SIZE_20);
         greenCartPage.enterASearch(TO_SEARCH);
-
         assertThat(greenCartPage.doesResultContain(TO_SEARCH)).isTrue();
+    }
+
+    @Test
+    void searchFunctionalityTestWithPages() {
+        greenCartPage.selectPageSize(PAGE_SIZE_5);
+        greenCartPage.enterASearch(TO_SEARCH_MORE_RESULTS);
+
+        assertThat(greenCartPage.resultContains(TO_SEARCH_MORE_RESULTS, greenCartPage.getNameList())).isTrue();
     }
 
     @Test
@@ -48,8 +56,8 @@ public class GreenCartTests extends BaseTest {
     @Test
     void sortByNameTest() {
         greenCartPage.selectPageSize(PAGE_SIZE_20);
-        greenCartPage.sortByName();
-        assertThat(greenCartPage.getItemNameList()).isSorted();
+        greenCartPage.sortBy(greenCartPage.getSortByNameOption());
+        assertThat(greenCartPage.getFullList(greenCartPage.getNameList())).isSorted();
     }
 
     @Test
@@ -58,21 +66,39 @@ public class GreenCartTests extends BaseTest {
         greenCartPage.sortByPrice();
         assertThat(greenCartPage.getItemPriceList()).isSorted();
     }
+//--OR-- use more dynamic methods:
+//    @Test
+//    void sortByPriceTest() {
+//        greenCartPage.selectPageSize(PAGE_SIZE_20);
+//        greenCartPage.sortBy(greenCartPage.getSortByPriceOption());
+//        assertThat(greenCartPage.getFullList(greenCartPage.getPriceList())).isSorted();
+//    }
 
     @Test
     void sortByDiscountTest() {
         greenCartPage.selectPageSize(PAGE_SIZE_20);
-        greenCartPage.sortBeyDiscount();
+        greenCartPage.sortBy(greenCartPage.getSortByDiscountOption());
         assertThat(greenCartPage.getItemDiscountList()).isSorted();
     }
 
-    //
-//    TODO
     @Test
-    void test() {
+    void sortByNameAcrossMultiplePagesTest() {
         greenCartPage.selectPageSize(PAGE_SIZE_5);
-        greenCartPage.clickNext();
+        greenCartPage.sortBy(greenCartPage.getSortByNameOption());
+        assertThat(greenCartPage.getFullList(greenCartPage.getNameList())).isSorted();
+    }
 
-        System.out.println(greenCartPage.getAllItemNameList());
+    @Test
+    void sortByPriceAcrossMultiplePagesTest() {
+        greenCartPage.selectPageSize(PAGE_SIZE_5);
+        greenCartPage.sortBy(greenCartPage.getSortByPriceOption());
+        assertThat(greenCartPage.getFullList(greenCartPage.getPriceList())).isSorted();
+    }
+
+    @Test
+    void sortByDiscountAcrossMultiplePagesTest() {
+        greenCartPage.selectPageSize(PAGE_SIZE_5);
+        greenCartPage.sortBy(greenCartPage.getSortByDiscountOption());
+        assertThat(greenCartPage.getFullList(greenCartPage.getDiscountList())).isSorted();
     }
 }

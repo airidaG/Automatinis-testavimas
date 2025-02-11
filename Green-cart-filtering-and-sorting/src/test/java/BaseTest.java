@@ -3,6 +3,7 @@ import org.junit.jupiter.api.BeforeEach;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import testPages.GreenCartPage;
 
 import java.time.Duration;
@@ -15,28 +16,28 @@ public class BaseTest {
     @BeforeEach
     void setup() {
 
-//        ChromeOptions options = getHeadlessOptions();
-//        driver = new ChromeDriver(options);
-        driver = new ChromeDriver();
+        ChromeOptions options = getHeadlessOptions();
+        driver = new ChromeDriver(options);
         greenCartPage = new GreenCartPage(driver);
         driver.get(BASE_URL);
-        driver.manage().window().maximize();
+//        driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
     }
-//
-//    @AfterEach
-//    void tearDown() {
-//        if (driver != null) {
-//            driver.quit();
-//        }
+
+    @AfterEach
+    void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
+    }
+
+
+    private ChromeOptions getHeadlessOptions() {
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless"); // Enable headless mode
+        options.addArguments("--disable-gpu"); // Disable GPU (for compatibility)
+        options.addArguments("--window-size=1920x1080"); // Set window size
+        return options;
+    }
+
 }
-
-//
-//    private ChromeOptions getHeadlessOptions() {
-//        ChromeOptions options = new ChromeOptions();
-//        options.addArguments("--headless"); // Enable headless mode
-//        options.addArguments("--disable-gpu"); // Disable GPU (for compatibility)
-//        options.addArguments("--window-size=1920x1080"); // Set window size
-//        return options;
-//    }
-

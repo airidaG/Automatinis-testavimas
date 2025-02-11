@@ -28,9 +28,7 @@ public class GreenCartPage extends BasePage {
     @FindBy(xpath = "//th[contains(@aria-label, 'Discount price:')]")
     private WebElement sortByDiscountOption;
 
-
-    //    TODO
-    @FindBy(css = "li:nth-of-type(4)")
+    @FindBy(xpath = "//a[contains(@aria-label, 'Next')]")
     private WebElement buttonNext;
 
     @FindBy(xpath = "//tbody/tr/td[1]")
@@ -42,22 +40,18 @@ public class GreenCartPage extends BasePage {
     @FindBy(xpath = "//tbody/tr/td[3]")
     private List<WebElement> discountList;
 
-
     public void selectPageSize(String value) {
         Select pageSizeSelector = new Select(pageSizeElement);
         pageSizeSelector.selectByValue(value);
-    }
-
-    public void sortByName() {
-        sortByNameOption.click();
     }
 
     public void sortByPrice() {
         sortByPriceOption.click();
     }
 
-    public void sortBeyDiscount() {
-        sortByDiscountOption.click();
+    //---One method for different sorts---
+    public void sortBy(WebElement element) {
+        element.click();
     }
 
     public void clickNext() {
@@ -68,22 +62,6 @@ public class GreenCartPage extends BasePage {
         return nameList.stream()
                 .map(WebElement::getText)
                 .toList();
-    }
-
-    //    TODO
-    public List<String> getAllItemNameList() {
-        List<String> names = new ArrayList<>();
-        while (buttonNext.getDomAttribute("class").contains("active")) {
-            names.addAll(nameList.stream()
-                    .map(WebElement::getText)
-                    .toList());
-            buttonNext.click();
-        }
-        names.addAll(nameList.stream()
-                .map(WebElement::getText)
-                .toList());
-
-        return names;
     }
 
     public List<String> getItemPriceList() {
@@ -98,14 +76,75 @@ public class GreenCartPage extends BasePage {
                 .toList();
     }
 
-    public boolean doesResultContain(String searchedString) {
-        return getItemNameList().stream()
-                .allMatch(item -> item.contains(searchedString));
+    public List<String> getFullList(List<WebElement> elementList) {
+        List<String> list = new ArrayList<>();
+        while (isNextClickable()) {
+            list.addAll(elementList.stream()
+                    .map(WebElement::getText)
+                    .toList());
+            clickNext();
+        }
+        list.addAll(elementList.stream()
+                .map(WebElement::getText)
+                .toList());
+        return list;
     }
 
+    //    --OR different methods for different lists--
+//    public List<String> getFullNameList() {
+//        List<String> names = new ArrayList<>();
+//        while (isNextClickable()) {
+//            names.addAll(nameList.stream()
+//                    .map(WebElement::getText)
+//                    .toList());
+//            clickNext();
+//        }
+//        names.addAll(nameList.stream()
+//                .map(WebElement::getText)
+//                .toList());
+//        return names;
+//    }
+
+    public List<WebElement> getPriceList() {
+        return priceList;
+    }
+
+    public List<WebElement> getDiscountList() {
+        return discountList;
+    }
+
+    public List<WebElement> getNameList() {
+        return nameList;
+    }
+
+    public WebElement getSortByNameOption() {
+        return sortByNameOption;
+    }
+
+    public WebElement getSortByPriceOption() {
+        return sortByPriceOption;
+    }
+
+    public WebElement getSortByDiscountOption() {
+        return sortByDiscountOption;
+    }
+
+    public boolean doesResultContain(String searchedString) {
+        return getItemNameList().stream()
+                .allMatch(item -> item.toLowerCase().contains(searchedString.toLowerCase()));
+    }
+
+    public boolean resultContains(String searchedString, List<WebElement> element) {
+        return getFullList(element).stream()
+                .allMatch(item -> item.toLowerCase().contains(searchedString.toLowerCase()));
+    }
 
     public void enterASearch(String toSearch) {
         inputSearch.sendKeys(toSearch);
+    }
+
+    public boolean isNextClickable() {
+        return buttonNext.getDomAttribute("aria-disabled").equals("false");
     }
 }
 
