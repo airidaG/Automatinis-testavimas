@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -17,7 +18,7 @@ import java.time.Duration;
 public class BaseTest {
     static WebDriver driver;
     CalorieAppPage calorieAppPage;
-    static final String  BASE_URL = "https://practice.expandtesting.com/tracalorie/";
+    static final String BASE_URL = "https://practice.expandtesting.com/tracalorie/";
     static final String HOME_URL = "https://practice.expandtesting.com/";
     static final String POPUP_BUTTON = ".fc-button-label";
 
@@ -36,7 +37,7 @@ public class BaseTest {
 
     @BeforeEach
     void setup() {
-
+        driver = new ChromeDriver();
         WebDriverRunner.setWebDriver(driver);
         calorieAppPage = new CalorieAppPage(driver);
         driver.get(BASE_URL);
@@ -51,7 +52,8 @@ public class BaseTest {
             driver.quit();
         }
     }
-    private void handlePopup(){
+
+    private void handlePopup() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(POPUP_BUTTON))).click();
 
