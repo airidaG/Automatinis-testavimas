@@ -28,13 +28,13 @@ public class AddToCartTest extends BaseTest {
     }
 
     @Test
-    void searchAndAddSpecificProductTest() throws InterruptedException {
+    void searchAndAddSpecificProductTest() {
 
         landingPage.enterSearch(ITEM_TO_SEARCH);
         landingPage.clickSearch();
         catalogPage.isItemInList(ITEM_TO_SEARCH);
-//        catalogPage.clickOne();
         catalogPage.addAllToCart();
+
     }
 
     private void assertProductInCatalog(String productName) {

@@ -1,6 +1,5 @@
 package testingPages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -23,11 +22,8 @@ public class CatalogPage extends BasePage {
     @FindBy(xpath = "//button[@class='btn btn-light btn-lg']")
     private WebElement buttonSearch;
 
-//    @FindBy(xpath = "/html//div[@id='product-list']/div[1]/div[@class='product-thumb']/div[@class='content']/form[@method='post']/div/button[1]")
-//    private WebElement oneButton;
-
-//    @FindBy(xpath = "//div[@class='button-group']/button[@aria-label='Add to Cart']")
-//    private List<WebElement> buttonsAddToCart;
+    @FindBy(xpath = "//button[@title='Add to Cart']")
+    private List<WebElement> buttonsAddToCart;
 
     @FindBy(xpath = "//div[@class='description']/h4/a")
     private List<WebElement> productTitleElementList;
@@ -54,15 +50,9 @@ public class CatalogPage extends BasePage {
 
     //TODO
     public void addAllToCart() {
-       
-        List<WebElement> buttonsAddToCart = driver.findElements(By.xpath("//div[@class='button-group']/button[@aria-label='Add to Cart']"));
-
         buttonsAddToCart.forEach(WebElement::click);
     }
 
-//    public void clickOne() {
-//        oneButton.click();
-//    }
 
     public void enterASearch(String item) {
         inputSearch.sendKeys(item);
