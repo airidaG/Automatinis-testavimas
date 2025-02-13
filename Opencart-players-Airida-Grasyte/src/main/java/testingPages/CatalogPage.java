@@ -1,12 +1,13 @@
 package testingPages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 public class CatalogPage extends BasePage {
     public CatalogPage(WebDriver driver) {
@@ -22,8 +23,11 @@ public class CatalogPage extends BasePage {
     @FindBy(xpath = "//button[@class='btn btn-light btn-lg']")
     private WebElement buttonSearch;
 
-//    @FindBy(xpath = "//div[@id='product-list']")
-//    private List<WebElement> productList;
+//    @FindBy(xpath = "/html//div[@id='product-list']/div[1]/div[@class='product-thumb']/div[@class='content']/form[@method='post']/div/button[1]")
+//    private WebElement oneButton;
+
+//    @FindBy(xpath = "//div[@class='button-group']/button[@aria-label='Add to Cart']")
+//    private List<WebElement> buttonsAddToCart;
 
     @FindBy(xpath = "//div[@class='description']/h4/a")
     private List<WebElement> productTitleElementList;
@@ -42,8 +46,23 @@ public class CatalogPage extends BasePage {
                 .findFirst()
                 .orElseThrow(() -> new NoSuchElementException("No item with title '" + title + "' found"));
 
+        Actions actions = new Actions(driver);
+        actions.moveToElement(elementToSelect).perform();
+
         elementToSelect.click();
     }
+
+    //TODO
+    public void addAllToCart() {
+       
+        List<WebElement> buttonsAddToCart = driver.findElements(By.xpath("//div[@class='button-group']/button[@aria-label='Add to Cart']"));
+
+        buttonsAddToCart.forEach(WebElement::click);
+    }
+
+//    public void clickOne() {
+//        oneButton.click();
+//    }
 
     public void enterASearch(String item) {
         inputSearch.sendKeys(item);
