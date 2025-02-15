@@ -1,6 +1,5 @@
 package testPages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -42,7 +41,7 @@ public class CheckoutPage extends BasePage {
                 .allMatch(duck -> duck.equals(item.toLowerCase()));
     }
 
-    public double manuallyAddedSum() {
+    public double getManuallyAddedCartSum() {
         return itemInCartPrices.stream()
                 .map(price -> price.getText().replace("$", "").trim())
                 .mapToDouble(Double::parseDouble)
@@ -54,7 +53,7 @@ public class CheckoutPage extends BasePage {
         return Double.parseDouble(textValue);
     }
 
-    public void removeAllItems() {
+    public void removeAllItemsFromCart() {
 //TODO
         FluentWait<WebDriver> wait = new FluentWait<>(driver)
                 .withTimeout(Duration.ofSeconds(10))

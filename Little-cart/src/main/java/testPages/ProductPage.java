@@ -31,9 +31,9 @@ public class ProductPage extends BasePage {
         buttonLogo.click();
     }
 
-    public void handleOptionsAndAdd() {
+    public void handleOptionsAndAddToCart() {
 
-        if (checkIfOptionsDisplayed()) {
+        if (checkIfSizeSelectorIsDisplayed()) {
             Select selector = new Select(selectorForSize);
             selector.selectByIndex(INDEX_TO_SELECT);
             clickAddToCart();
@@ -42,7 +42,7 @@ public class ProductPage extends BasePage {
         }
     }
 
-    public boolean checkIfOptionsDisplayed() {
+    public boolean checkIfSizeSelectorIsDisplayed() {
         try {
             return selectorForSize.isDisplayed() && selectorForSize.isEnabled();
         } catch (NoSuchElementException e) {

@@ -15,10 +15,10 @@ public class ShoppingCartTests extends BaseTest {
     private int itemCounter = 0;
 
     @Test
-    void addProductsToTheSoppingCartTest() throws IOException, InterruptedException {
+    void addAndRemoveProductsToTheSoppingCartTest() throws IOException, InterruptedException {
         readData().forEach(line -> {
             landingPage.selectADuckByHeading(line);
-            productPage.handleOptionsAndAdd();
+            productPage.handleOptionsAndAddToCart();
             itemCounter++;
             assertEquals(String.valueOf(itemCounter), landingPage.getCartCounterValue(itemCounter));
             productPage.clickLogo();
@@ -29,9 +29,9 @@ public class ShoppingCartTests extends BaseTest {
         Thread.sleep(2000);
 
         assertThat(checkoutPage.getDisplayedSubtotalNumber())
-                .isEqualTo(checkoutPage.manuallyAddedSum());
+                .isEqualTo(checkoutPage.getManuallyAddedCartSum());
 
-        checkoutPage.removeAllItems();
+        checkoutPage.removeAllItemsFromCart();
     }
 
     public List<String> readData() throws IOException {
