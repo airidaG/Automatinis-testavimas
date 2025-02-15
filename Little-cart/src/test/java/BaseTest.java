@@ -7,7 +7,6 @@ import testPages.CheckoutPage;
 import testPages.LandingPage;
 import testPages.ProductPage;
 
-import java.time.Duration;
 
 public class BaseTest {
     static WebDriver driver;
@@ -27,7 +26,6 @@ public class BaseTest {
         checkoutPage = new CheckoutPage(driver);
         driver.get(BASE_URL);
         driver.manage().window().maximize();
-//        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
     }
 
 //    @AfterEach
