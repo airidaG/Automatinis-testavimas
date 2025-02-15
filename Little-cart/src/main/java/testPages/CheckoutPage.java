@@ -55,7 +55,7 @@ public class CheckoutPage extends BasePage {
     }
 
     public void removeAllItems() {
-
+//TODO
         FluentWait<WebDriver> wait = new FluentWait<>(driver)
                 .withTimeout(Duration.ofSeconds(10))
                 .pollingEvery(Duration.ofMillis(500))

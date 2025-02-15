@@ -21,6 +21,8 @@ public class ProductPage extends BasePage {
     @FindBy(xpath = "//select[@name='options[Size]']")
     private WebElement selectorForSize;
 
+    private final int INDEX_TO_SELECT = 1;
+
     public void clickAddToCart() {
         buttonAddToCart.click();
     }
@@ -33,7 +35,7 @@ public class ProductPage extends BasePage {
 
         if (checkIfOptionsDisplayed()) {
             Select selector = new Select(selectorForSize);
-            selector.selectByIndex(1);
+            selector.selectByIndex(INDEX_TO_SELECT);
             clickAddToCart();
         } else {
             buttonAddToCart.click();
