@@ -1,5 +1,6 @@
 package testPages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -28,8 +29,8 @@ public class CheckoutPage extends BasePage {
     @FindBy(xpath = "//strong[@class='formatted-value']")
     private WebElement subtotal;
 
-    @FindBy(xpath = "//div[@class='cart wrapper']")
-    private WebElement formShoppingCart;
+    @FindBy(xpath = "//p[@class='text-center']")
+    private WebElement textElementEmptyCart;
 
     @FindBy(xpath = "//div[@class='loader']")
     private WebElement loader;
@@ -39,6 +40,10 @@ public class CheckoutPage extends BasePage {
                 .map(duck -> duck.getText().toLowerCase())
                 .filter(duck -> duck.equals(item.toLowerCase()))
                 .allMatch(duck -> duck.equals(item.toLowerCase()));
+    }
+
+    public boolean isItemCartEmpty(){
+        return itemsInCart.isEmpty();
     }
 
     public double getManuallyAddedCartSum() {
@@ -53,16 +58,30 @@ public class CheckoutPage extends BasePage {
         return Double.parseDouble(textValue);
     }
 
+    public String getEmptyCartText(){
+      return  textElementEmptyCart.getText();
+    }
+
     public void removeAllItemsFromCart() {
-//TODO
+        while(!buttonsRemoveItems.isEmpty()){
+            try {
+                WebElement singleRemoveButton = buttonsRemoveItems.getFirst();
+                singleRemoveButton.click();
+                handleLoader();
+                buttonsRemoveItems = driver.findElements(By.xpath("//button[@name='remove_cart_item']"));
+
+            } catch (StaleElementReferenceException e) {
+                System.out.println("StaleElementReferenceException caught, retrying...");
+            }
+        }
+    }
+
+    public void handleLoader(){
         FluentWait<WebDriver> wait = new FluentWait<>(driver)
                 .withTimeout(Duration.ofSeconds(10))
                 .pollingEvery(Duration.ofMillis(500))
                 .ignoring(NoSuchElementException.class, StaleElementReferenceException.class);
+        wait.until(ExpectedConditions.visibilityOf(loader));
         wait.until(ExpectedConditions.invisibilityOf(loader));
-//            wait.until(ExpectedConditions.stalenessOf(loader));
-
-        //            wait.until(ExpectedConditions.stalenessOf(loader));
-        buttonsRemoveItems.forEach(WebElement::click);
     }
 }

@@ -1,4 +1,4 @@
-import org.checkerframework.checker.units.qual.C;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.WebDriver;
@@ -7,6 +7,12 @@ import testPages.CheckoutPage;
 import testPages.LandingPage;
 import testPages.ProductPage;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+
 
 public class BaseTest {
     static WebDriver driver;
@@ -14,6 +20,12 @@ public class BaseTest {
     ProductPage productPage;
     CheckoutPage checkoutPage;
     static final String BASE_URL = "https://demo.litecart.net/";
+    static List<String> testData;
+
+    @BeforeAll
+    static void setUpOnce() throws IOException {
+        testData = readData();
+    }
 
     @BeforeEach
     void setup() {
@@ -43,4 +55,11 @@ public class BaseTest {
 //        options.addArguments("--window-size=1920x1080"); // Set window size
 //        return options;
 //    }
+
+    private static List<String> readData() throws IOException {
+        Path filePath = Paths.get("src/test/resources/templateData.csv");
+        List<String> lines = Files.lines(filePath)
+                .toList();
+        return lines;
+    }
 }
