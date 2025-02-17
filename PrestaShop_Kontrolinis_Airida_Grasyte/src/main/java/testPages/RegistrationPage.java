@@ -30,12 +30,6 @@ public class RegistrationPage extends BasePage {
     //buttons
     @FindBy(xpath = "//button[@type='submit']")
     private WebElement buttonSave;
-//    //selectors
-//    @FindBy(id = "field-id_gender-1")
-//    private WebElement selectorGenderMale;
-//
-//    @FindBy(id = "field-id_gender-2")
-//    private WebElement selectorGenderFemale;
 
     public void enterFirstName(String firstName) {
         inputFirstName.sendKeys(firstName);

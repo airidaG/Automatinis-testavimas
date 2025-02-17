@@ -21,9 +21,6 @@ public class CartPage extends BasePage {
     @FindBy(xpath = "//span[@class='discount discount-percentage']")
     private WebElement discountText;
 
-    @FindBy(xpath = "//span[@class='regular-price']")
-    private WebElement regularPrice;
-
     @FindBy(xpath = "//span[@class='price']")
     private WebElement priceAfterDiscount;
 
@@ -40,12 +37,6 @@ public class CartPage extends BasePage {
         return Integer.parseInt(discountText.getText()
                 .replace("-", "")
                 .replace("%", ""));
-    }
-
-    public double getRegularPrice() {
-        String regularPriceText = regularPrice.getText()
-                .replace("$", "");
-        return Double.parseDouble(regularPriceText);
     }
 
     public double getPriceAfterDiscount() {
